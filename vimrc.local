@@ -1,2 +1,15 @@
-" Map escape to ,e
+" Map escape to ,e (,e)
 imap ,e <esc>
+
+" Search for the word under the cursor (Shift-K)
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" Opens a vertical split and switches over (\v)
+nnoremap <leader>v <C-w>v<C-w>l
+
+" Search all files in current dir (Ctrl-Shift-K)
+command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap <C-S-K> :Ag<SPACE>
+
+" Remap location list toggle for ListToggle plugin conflict ( ll)
+let g:lt_location_list_toggle_map = '<leader>ll'
