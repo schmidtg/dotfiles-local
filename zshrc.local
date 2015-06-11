@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+# Shell commands
+export PATH="$HOME/.bin:$PATH"
