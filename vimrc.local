@@ -14,9 +14,9 @@ nnoremap <C-S-K> :Ag<SPACE>
 " Remap location list toggle for ListToggle plugin conflict ( ll)
 let g:lt_location_list_toggle_map = '<leader>ll'
 
-" Stops to open ctrlp files
-let g:ctrlp_working_path_mode = 'rw'
+" Stops for opening files using ctrlp
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_root_markers = ['.ctrlp']
 
 " Reset working directory to closest Rakefile
-let g:rooter_patterns = ['Rakefile', '.git/']
+let g:rooter_patterns = ['Rakefile']
