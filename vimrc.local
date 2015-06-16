@@ -1,22 +1,121 @@
 " Map escape to ,e (,e)
 imap ,e <esc>
 
-" Search for the word under the cursor (Shift-K)
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
-
 " Opens a vertical split and switches over (\v)
 nnoremap <leader>v <C-w>v<C-w>l
+
+"""""""""""""""""""
+" Quickfix window
+"""""""""""""""""""
+" Remap location list toggle for ListToggle plugin conflict ( ll)
+let g:lt_location_list_toggle_map = '<leader>ll'
+
+
+"""""""""""""""""""
+" Searching
+"""""""""""""""""""
+" Search for the word under the cursor (Shift-K)
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Search all files in current dir (Ctrl-Shift-K)
 command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap <C-S-K> :Ag<SPACE>
 
-" Remap location list toggle for ListToggle plugin conflict ( ll)
-let g:lt_location_list_toggle_map = '<leader>ll'
 
-" Stops for opening files using ctrlp
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_root_markers = ['.ctrlp']
+"""""""""""""""""""
+" Ctrlp
+"""""""""""""""""""
+" Use the nearest .git directory as the cwd
+let g:ctrlp_working_path_mode = 'r'
 
+" Setup some default ignores
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
+  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
+\}
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :CtrlP<cr>
+
+" Easy bindings for its various modes
+nmap <leader>bb :CtrlPBuffer<cr>
+nmap <leader>bm :CtrlPMixed<cr>
+nmap <leader>bs :CtrlPMRU<cr>
+
+
+"""""""""""""""""""
+" Buffer Management
+"""""""""""""""""""
+" This allows buffers to be hidden if you've modified a buffer.
+" This is almost a must if you wish to use buffers in this way.
+set hidden
+
+" To open a new empty buffer
+" This replaces :tabnew which I used to bind to this mapping
+nmap <leader>T :enew<cr>
+
+" Move to the next buffer
+nmap <leader>l :bnext<CR>
+
+" Move to the previous buffer
+nmap <leader>h :bprevious<CR>
+
+" Close the current buffer and move to the previous one
+" This replicates the idea of closing a tab
+nmap <leader>bq :bp <BAR> bd #<CR>
+
+" Show all open buffers and their status
+nmap <leader>bl :ls<CR>
+
+"""""""""""""""""""
+" Buffergator plugin
+"""""""""""""""""""
+" Use the right side of the screen
+let g:buffergator_viewport_split_policy = 'R'
+
+" I want my own keymappings...
+let g:buffergator_suppress_keymaps = 1
+
+" Looper buffers
+"let g:buffergator_mru_cycle_loop = 1
+
+" Go to the previous buffer open
+nmap <leader>jj :BuffergatorMruCyclePrev<cr>
+
+" Go to the next buffer open
+nmap <leader>kk :BuffergatorMruCycleNext<cr>
+
+" View the entire list of buffers open
+nmap <leader>bl :BuffergatorOpen<cr>
+
+" Shared bindings from Solution #1 from earlier
+nmap <leader>T :enew<cr>
+nmap <leader>bq :bp <BAR> bd #<cr>
+
+
+"""""""""""""""""""
+" vim-rooter plugin
+"""""""""""""""""""
 " Reset working directory to closest Rakefile
 let g:rooter_patterns = ['Rakefile']
+
+
+"""""""""""""""""""
+" RSpec / Tmux
+"""""""""""""""""""
+" Send the spec output to a tmux pane
+" let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
+let g:rspec_command = "Dispatch rspec {spec}"
+
+
+"""""""""""""""""""
+" Formatting
+"""""""""""""""""""
+" Automatically remove all trailing whitespace after saving
+autocmd BufWritePre * :%s/\s\+$//e
+
+
+"""""""""""""""""""
+" Snippets
+"""""""""""""""""""
+let g:user_emmet_leader_key='<C-E>'

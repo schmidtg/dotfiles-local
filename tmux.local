@@ -1,0 +1,2 @@
+" Bind ctrl-k to the tmux clear-history command
+bind -n C-k clear-history

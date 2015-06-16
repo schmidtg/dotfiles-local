@@ -1,2 +1,10 @@
 Plug 'valloric/ListToggle'
 Plug 'airblade/vim-rooter'
+Plug 'airblade/vim-gitgutter'
+Plug 'jgdavey/tslime.vim'
+Plug 'jeetsukumaran/vim-buffergator'
+Plug 'tpope/vim-dispatch'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'mattn/emmet-vim'
+Plug 'garbas/vim-snipmate'
+
