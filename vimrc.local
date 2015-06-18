@@ -28,12 +28,6 @@ nnoremap <C-S-K> :Ag<SPACE>
 " Use the nearest .git directory as the cwd
 let g:ctrlp_working_path_mode = 'r'
 
-" Setup some default ignores
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.(git|hg|svn)|\_site)$',
-  \ 'file': '\v\.(exe|so|dll|class|png|jpg|jpeg)$',
-\}
-
 " Interpret space as either <space> or _ when matching files
 let g:ctrlp_abbrev = {
     \ 'gmode': 't',
