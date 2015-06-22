@@ -4,6 +4,9 @@ imap ,e <esc>
 " Opens a vertical split and switches over (\v)
 nnoremap <leader>v <C-w>v<C-w>l
 
+" Quickly save
+nmap <leader>w :w!<cr>
+
 """""""""""""""""""
 " Quickfix window
 """""""""""""""""""
@@ -25,8 +28,11 @@ nnoremap <C-S-K> :Ag<SPACE>
 """""""""""""""""""
 " Ctrlp
 """""""""""""""""""
+let g:ctrlp_root_markers = ['.ctrlp']
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
+
 " Use the nearest .git directory as the cwd
-let g:ctrlp_working_path_mode = 'r'
+let g:ctrlp_working_path_mode = 0
 
 " Interpret space as either <space> or _ when matching files
 let g:ctrlp_abbrev = {
@@ -125,3 +131,12 @@ autocmd BufWritePre * :%s/\s\+$//e
 " Snippets
 """""""""""""""""""
 let g:user_emmet_leader_key='<C-E>'
+
+"""""""""""""""""""
+" Load plugins on insert mode
+"""""""""""""""""""
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
+augroup END

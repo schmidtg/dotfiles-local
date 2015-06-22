@@ -6,5 +6,15 @@ Plug 'jeetsukumaran/vim-buffergator'
 Plug 'tpope/vim-dispatch'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'mattn/emmet-vim'
-Plug 'garbas/vim-snipmate'
+Plug 'SirVer/ultisnips', { 'on': [] }
 
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  if a:info.status == 'installed' || a:info.force
+    !./install.sh
+  endif
+endfunction
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM'), 'on': [] }
