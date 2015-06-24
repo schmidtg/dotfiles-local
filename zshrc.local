@@ -3,6 +3,10 @@
 # Shell commands
 export PATH="$HOME/.bin:$PATH"
 
+# Allow ANSI escape sequences to be passed through to less unscathed
+# and rendered as colors in the terminal
+export LESS=eFRX
+
 # source ".sshagentrc" if present
 SSHAGENTRC_FILE=$HOME/.sshagentrc;
 if [ -f $SSHAGENTRC_FILE ]; then
