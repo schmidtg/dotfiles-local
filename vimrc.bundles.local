@@ -8,6 +8,8 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'mattn/emmet-vim'
 Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'burke/matcher'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 function! BuildYCM(info)
   " info is a dictionary with 3 fields

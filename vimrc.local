@@ -169,3 +169,7 @@ augroup load_us_ycm
   autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
 augroup END
+
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
