@@ -28,5 +28,5 @@ if [ -f $RVM_SCRIPT ]; then
 fi
 
 # Custom key bindings
-#bindkey "^[f" forward-word
-#bindkey "^[b" backward-word
+bindkey "^[f" forward-word
+bindkey "^[b" backward-word
