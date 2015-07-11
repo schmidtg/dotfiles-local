@@ -173,3 +173,17 @@ augroup END
 let g:UltiSnipsExpandTrigger="<c-j>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+"""""""""""""""""""
+" Easy switch to project directories
+"""""""""""""""""""
+let g:sermo='/home/vagrant/src/sermo'
+let g:aramak='/home/vagrant/src/sermo/apps/aramak'
+let g:dummy='/home/vagrant/src/sermo/apps/dummy'
+let g:email='/home/vagrant/src/sermo/apps/email'
+let g:posts='/home/vagrant/src/sermo/apps/posts'
+let g:suds='/home/vagrant/src/sermo/apps/suds'
+let g:surveza='/home/vagrant/src/sermo/apps/surveza'
+let g:telemetry='/home/vagrant/src/sermo/apps/telemetry'
+
+nmap <leader>wo :cd `=<SPACE>
