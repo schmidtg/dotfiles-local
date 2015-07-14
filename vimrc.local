@@ -28,10 +28,9 @@ nnoremap <C-S-K> :Ag<SPACE>
 """""""""""""""""""
 " Ctrlp
 """""""""""""""""""
-let g:ctrlp_root_markers = ['.ctrlp']
 let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
 
-" Use the nearest .git directory as the cwd
+" Do not use the nearest .git directory as the cwd
 let g:ctrlp_working_path_mode = 0
 
 " Interpret space as either <space> or _ when matching files
@@ -137,8 +136,9 @@ nmap <leader>bq :bp <BAR> bd #<cr>
 """""""""""""""""""
 " vim-rooter plugin
 """""""""""""""""""
-" Reset working directory to closest Rakefile
-let g:rooter_patterns = ['Rakefile']
+" Reset working directory to closest ctrlp file (touch file in each project dir)
+let g:rooter_patterns = ['.ctrlp']
+map <silent> <unique> <Leader>wo <Plug>RooterChangeToRootDirectory
 
 
 """""""""""""""""""
@@ -186,4 +186,4 @@ let g:suds='/home/vagrant/src/sermo/apps/suds'
 let g:surveza='/home/vagrant/src/sermo/apps/surveza'
 let g:telemetry='/home/vagrant/src/sermo/apps/telemetry'
 
-nmap <leader>wo :cd `=<SPACE>
+nmap <leader>cd :cd `=<SPACE>
