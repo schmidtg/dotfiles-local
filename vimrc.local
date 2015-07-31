@@ -1,3 +1,6 @@
+" Colors
+:silent! colorscheme solarized
+
 " Map escape to ,e (,e)
 imap ,e <esc>
 
