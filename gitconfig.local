@@ -1,6 +1,7 @@
 [alias]
   l = log --pretty=colored
   br = branch -v
+  hist = log --graph --pretty=oneline --abbrev-commit
 [diff]
   tool = vimdiff
 [merge]
