@@ -10,6 +10,7 @@ Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'burke/matcher'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'int3/vim-extradite'
 
 function! BuildYCM(info)
   " info is a dictionary with 3 fields
