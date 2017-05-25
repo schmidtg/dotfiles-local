@@ -162,7 +162,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 """""""""""""""""""
 " Snippets
 """""""""""""""""""
-let g:user_emmet_leader_key='<C-E>'
+let g:user_emmet_leader_key='<c-j>'
 
 """""""""""""""""""
 " Load plugins on insert mode
@@ -173,7 +173,7 @@ augroup load_us_ycm
                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
 augroup END
 
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
@@ -188,5 +188,9 @@ let g:posts='/home/vagrant/src/sermo/apps/posts'
 let g:suds='/home/vagrant/src/sermo/apps/suds'
 let g:surveza='/home/vagrant/src/sermo/apps/surveza'
 let g:telemetry='/home/vagrant/src/sermo/apps/telemetry'
+let g:client_portal='/home/vagrant/src/client_portal/'
+let g:drug_ratings='/home/vagrant/src/drug_ratings/'
+let g:puppet='/home/vagrant/src/puppet/'
+let g:verification='/home/vagrant/src/verification/'
 
 nmap <leader>cd :cd `=<SPACE>

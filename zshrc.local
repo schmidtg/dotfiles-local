@@ -69,6 +69,12 @@ function puppetize_the_world() {
    FLEET=prod BRANCH=production puppetize_fleet
 }
 
+function sync_time() {
+  sudo service ntp stop
+  sudo ntpdate -s time.nist.gov
+  sudo service ntp start
+}
+
 # Custom key bindings
 bindkey "^[f" forward-word
 bindkey "^[b" backward-word
