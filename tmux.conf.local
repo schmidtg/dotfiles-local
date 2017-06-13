@@ -1,0 +1,8 @@
+# Bind ctrl-k to the tmux clear-history command
+# bind -n C-k clear-history
+bind-key b send-keys -R \; clear-history
+
+# Set default path to current working directory
+bind-key c new-window -c "#{pane_current_path}"
+bind-key '"' split-window -c '#{pane_current_path}'
+bind-key % split-window -h -c '#{pane_current_path}'

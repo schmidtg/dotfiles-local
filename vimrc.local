@@ -24,8 +24,8 @@ let g:lt_location_list_toggle_map = '<leader>ll'
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Search all files in current dir (Ctrl-Shift-K)
-command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap <C-S-K> :Ag<SPACE>
+"command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+"nnoremap <C-S-K> :Ag<SPACE>
 
 
 """""""""""""""""""
