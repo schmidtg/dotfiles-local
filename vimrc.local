@@ -48,6 +48,11 @@ let g:ctrlp_abbrev = {
         \ ]
     \ }
 
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l -f --nocolor --hidden -g ""'
+endif
+
 " Use a leader instead of the actual named binding
 nmap <leader>p :CtrlP<cr>
 
