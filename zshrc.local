@@ -3,6 +3,9 @@
 # Shell commands
 export PATH="$HOME/.bin:$PATH"
 
+# Add ~/.local/bin to PATH (for pip --user installs)
+export PATH="$HOME/.local/bin:$PATH"
+
 # Allow ANSI escape sequences to be passed through to less unscathed
 # and rendered as colors in the terminal
 export LESS=eFRX

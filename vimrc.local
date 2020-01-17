@@ -10,6 +10,9 @@ nnoremap <leader>v <C-w>v<C-w>l
 " Quickly save
 nmap <leader>w :w!<cr>
 
+" Expand textwidth
+set textwidth=1000
+
 """""""""""""""""""
 " Quickfix window
 """""""""""""""""""
@@ -154,7 +157,7 @@ map <silent> <unique> <Leader>wo <Plug>RooterChangeToRootDirectory
 """""""""""""""""""
 " Send the spec output to a tmux pane
 " let g:rspec_command = 'call Send_to_Tmux("rspec {spec}\n")'
-let g:rspec_command = "Dispatch rspec {spec}"
+let g:rspec_command = "Dispatch bundle exec rspec {spec}"
 
 
 """""""""""""""""""

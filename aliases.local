@@ -1,0 +1,101 @@
+# Elasticbeanstalk machines
+alias ssh-owl-opium="ssh ec2-user@10.0.38.46";
+alias ssh-owl2-opium="ssh ec2-user@10.0.31.76";
+alias ssh-ape-opium="ssh ec2-user@10.0.61.156";
+alias ssh-ape2-opium="ssh ec2-user@10.0.61.105";
+alias ssh-prod1-opium="ssh ec2-user@10.0.21.140";
+alias ssh-prod2-opium="ssh ec2-user@10.0.28.41";
+alias ssh-prod3-opium="ssh ec2-user@10.0.28.214";
+
+# For psql prompts
+alias psql-drug_ratings_staging="psql -h owl-fleet.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d drug_ratings_staging";
+alias psql-drug_ratings_staging_ape="psql -h ape-fleet.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d drug_ratings_staging_ape";
+alias psql-drug_ratings_production="psql -h drug-ratings.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d drug_ratings_production";
+alias psql-drug_ratings_eel="psql -h eel-ratings.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d drug_ratings_production";
+alias psql-drug_ratings_production_ro="psql -h ro-drug-ratings.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d drug_ratings_production";
+alias psql-warehouse_production="psql -h warehouse.sermo.prod -U gschmidt -d warehouse_production";
+alias psql-warehouse_production_sermo="psql -h warehouse.sermo.prod -U sermo -d warehouse_production";
+alias psql-warehouse_production_bi_deploy="psql -h warehouse.sermo.prod -U bi_deploy_prod -d warehouse_production";
+alias psql-warehouse_production_postgres="psql -h warehouse.sermo.prod -U postgres -d warehouse_production";
+alias psql-warehouse_redshift_super_ses="psql -h warehouse-redshift.prod.s3o.red -U super_for_ses -p 5439 warehouse_production";
+alias psql-warehouse_redshift_super_gschmidt="psql -h warehouse-redshift.prod.s3o.red -U super_gschmidt -p 5439 warehouse_production";
+alias psql-warehouse_redshift_postgres="psql -h warehouse-redshift.prod.s3o.red -U postgres -p 5439 warehouse_production";
+alias psql-warehouse_redshift_gschmidt="psql -h warehouse-redshift.prod.s3o.red -U gschmidt -p 5439 warehouse_production";
+alias psql-warehouse_redshift_metabase="psql -h warehouse-redshift.prod.s3o.red -U metabase -p 5439 warehouse_production";
+alias psql-warehouse_staging="psql -h warehouse.sermo.owl -U gschmidt -d warehouse_owl";
+alias psql-warehouse_staging_sermo="psql -h warehouse.sermo.owl -U sermo -d warehouse_owl";
+alias psql-suds_production="psql -h dball.sermo.prod -U sermo -d suds_production";
+alias psql-posts_production="psql -h dball.sermo.prod -U sermo -d posts_production";
+alias psql-suds_production_ro="psql -h prod-dball-read-replica.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U sermo -d suds_production";
+alias psql-posts_production_ro="psql -h prod-dball-read-replica.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U sermo -d posts_production";
+alias psql-suds_eel="psql -h dball.sermo.eel -U sermo -d suds_eel";
+alias psql-suds_owl="psql -h dball.sermo.owl -U sermo -d suds_owl";
+alias psql-posts_owl="psql -h dball.sermo.owl -U sermo -d posts_owl";
+alias psql-client_portal_production="psql -h sermo-client.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d client_portal_production";
+alias psql-client_portal_staging="psql -h owl-fleet.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U postgres -d client_portal_staging";
+alias psql-telemetry_production="psql -h dw.sermo.prod -U sermo -d telemetry_production";
+alias psql-realtime_staging="psql -h rt-staging-pg-encrypted.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U RealTimeStagingAdmin RealTime_Staging";
+alias psql-metabase_production="psql -h aanccaoaicrc54.cqcmpguhmkx3.us-east-1.rds.amazonaws.com -U sermo ebdb -W";
+alias psql-membership_internal="psql -h internal-membership-db.stage.s3o.red -U postgres membership";
+alias psql-membership_staging="psql -h staging-membership-db.stage.s3o.red -U postgres membership";
+alias psql-membership_production="psql -h prod-membership-db.prod.s3o.red -U postgres membership";
+
+function get-instance-name {
+   aws ec2 describe-instances --instance-ids $@ | jq '.Reservations[].Instances[] | "\(.InstanceId) \(.Tags[] | select(.Key == "Name") | .Value)"' | tr -d \"
+}
+
+# Adds a 'eb-ssh' alias to ssh into a running Elastic Beanstalk EC2 instance
+# based on the EB environment you provide.
+#
+# Relies on:
+# 1. You being in the the git repo for the EB app e.g., you must be in the
+# drug_ratings directory where you cloned the drug_ratings repo.
+# 2. You must have ~/.ssh/valetkp.pem (or modify the script to use a different
+# pem file or location of pem file)
+# 3. You have the awscli and awsebcli pip packages installed (e.g., you've run
+# 'pip install awsebcli' and 'pip install awscli'
+#
+# eb-ssh owl -> ssh's into the first ec2 box for owl
+# eb-ssh prod -> ssh's into the first ec2 box for prod
+
+function eb_ssh () {
+  if [[ "$1" == "" ]]; then
+    echo "You need to provide an EB environment name (eb-ssh prod, eb-ssh owl, etc.)"
+    return 1
+  fi
+
+  if [[ $1 == "i-"* ]]; then
+    # the argument is an instance id
+    EC2_INSTANCE_ID=$1
+  else
+    # the argument is the name of an environment
+    EB_LIST_VALUE=$(eb list --verbose)
+    if [[ $EB_LIST_VALUE == *"Signature expired"* ]]; then
+      sudo service ntp stop; sudo ntpdate time.nist.gov; sudo service ntp start
+      EB_LIST_VALUE=$(eb list --verbose)
+    fi
+    EC2_INSTANCE_ID=$(eb list --verbose | grep $1 | grep -o -E 'i-[0-9a-f]{8,17}' | head -1)
+  fi
+
+  if [[ "$EC2_INSTANCE_ID" == "" ]]; then
+    echo "Did not find a valid EC2 instance id to query against AWS when using '$1' as the EB environment name"
+    return 2
+  fi
+
+  EC2_INSTANCE_PRIVATE_IP_ADDRESS=$(aws ec2 describe-instances --region=us-east-1 --instance-ids $EC2_INSTANCE_ID | grep -o -E 'PrivateIpAddress": "[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}' | head -1 | grep -o -E '[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}\.[[:digit:]]{1,3}')
+  if [[ "$EC2_INSTANCE_PRIVATE_IP_ADDRESS" == "" ]]; then
+    echo "Could not determine the box's private ip address (instance id used: '$EC2_INSTANCE_ID')"
+    return 3
+  fi
+
+  if [[ $1 == *"prod"* ]]; then
+    set -x
+    ssh -i ~/.ssh/sermokp.pem ec2-user@$EC2_INSTANCE_PRIVATE_IP_ADDRESS
+  else
+    set -x
+    ssh -i ~/.ssh/valetkp.pem ec2-user@$EC2_INSTANCE_PRIVATE_IP_ADDRESS
+  fi
+  set +x
+}
+
+alias eb-ssh='eb_ssh $*'
