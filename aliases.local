@@ -1,3 +1,6 @@
+alias vi=/usr/local/bin/vim
+alias vim=/usr/local/bin/vim
+
 # Elasticbeanstalk machines
 alias ssh-owl-opium="ssh ec2-user@10.0.38.46";
 alias ssh-owl2-opium="ssh ec2-user@10.0.31.76";
