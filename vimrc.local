@@ -57,12 +57,12 @@ if executable('ag')
 endif
 
 " Use a leader instead of the actual named binding
-nmap <leader>p :CtrlP<cr>
+" nmap <leader>p :CtrlP<cr>
 
 " Easy bindings for its various modes
-nmap <leader>bb :CtrlPBuffer<cr>
-nmap <leader>bm :CtrlPMixed<cr>
-nmap <leader>bs :CtrlPMRU<cr>
+" nmap <leader>bb :CtrlPBuffer<cr>
+" nmap <leader>bm :CtrlPMixed<cr>
+" nmap <leader>bs :CtrlPMRU<cr>
 
 " Use alternate matcher
 " http://blog.mikecordell.com/2015/01/27/better-fuzzy-search-with-ctrl-p-in-vim.html
@@ -93,6 +93,30 @@ if executable('matcher')
     endfunction
 end
 
+"""""""""
+" Fzf
+""""""""""
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+" Insert mode completion
+imap <c-x><c-k> <plug>(fzf-complete-word)
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+" Advanced customization using Vim function
+inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
+
+" Use a leader instead of the actual named binding
+nmap <leader>p :Files<cr>
+
+" Easy bindings for its various modes
+nmap <leader>bb :Buffers<cr>
+" nmap <leader>bm :CtrlPMixed<cr>
+" nmap <leader>bs :CtrlPMRU<cr>
 
 """""""""""""""""""
 " Buffer Management

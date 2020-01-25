@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+# Add alias for vim (also added this to .zshrc)
+alias vi=/usr/local/bin/vim
+alias vim=/usr/local/bin/vim
+
 # Shell commands
 export PATH="$HOME/.bin:$PATH"
 
