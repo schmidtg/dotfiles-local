@@ -8,7 +8,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'mattn/emmet-vim'
 "Plug 'SirVer/ultisnips', { 'on': [] }
 Plug 'burke/matcher'
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'int3/vim-extradite'
 
