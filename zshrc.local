@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 # Add alias for vim (also added this to .zshrc)
-alias vi=/usr/local/bin/vim
-alias vim=/usr/local/bin/vim
+#alias vi=/usr/local/bin/vim
+#alias vim=/usr/local/bin/vim
 
 # Shell commands
 export PATH="$HOME/.bin:$PATH"
@@ -14,67 +14,11 @@ export PATH="$HOME/.local/bin:$PATH"
 # and rendered as colors in the terminal
 export LESS=eFRX
 
-# source ".sshagentrc" if present
-SSHAGENTRC_FILE=$HOME/.sshagentrc;
-if [ -f $SSHAGENTRC_FILE ]; then
-  source $SSHAGENTRC_FILE;
-fi
-
-# Load any custom init-scripts (the filename *must* end-with "rc")
-CUSTOM_INIT_SCRIPTS_DIRECTORY=$HOME/.home_dir/custom;
-if [ -d $CUSTOM_INIT_SCRIPTS_DIRECTORY ]; then
-  for f in `find "$CUSTOM_INIT_SCRIPTS_DIRECTORY" -type f -o -type l | \grep "rc$"`; do
-    source $f;
-  done
-fi
-
 # If it exists, load RVM (it *must* be initialized last)
 RVM_SCRIPT=$HOME/.rvm/scripts/rvm;
 if [ -f $RVM_SCRIPT ]; then
   source $RVM_SCRIPT;
 fi
-
-function puppetize_production() {
-  for host in ns-prod1 ns-prod2
-  do
-    echo "Puppetizing ${host}.sermo.cloud..."
-    ssh ${host}.sermo.cloud 'SKIP_SLEEP=true sudo puppetize'
-    echo
-  done
-
-  for host in api1 api2 async cron dball dw lb1 lb2 market metrics monitor search1 search2 tiger1 tiger2 tiger3 tiger4 tiger5 tools
-  do
-    echo "Puppetizing ${host}.sermo.prod..."
-    ssh ${host}.sermo.prod 'SKIP_SLEEP=true sudo puppetize'
-    echo
-  done
-}
-
-function puppetize_fleet() {
-  if [ -z ${FLEET} ] || [ -z ${BRANCH} ]; then
-    echo "Both FLEET and BRANCH must be set"
-    return 1
-  fi
-
-  for host in ns-prod1 ns-prod2
-  do
-    echo "Puppetizing ${host}.sermo.cloud..."
-    ssh ${host}.sermo.cloud 'SKIP_SLEEP=true sudo puppetize'
-    echo
-  done
-
-  for host in api1 api2 async cron dball dw lb1 lb2 market metrics monitor search1 search2 tiger1 tiger2 tiger3 tiger4 tiger5 tools
-  do
-    echo "Puppetizing ${host}.sermo.${FLEET}..."
-    cmd="sudo -H -u puppet bash -c 'cd /etc/puppet && git fetch --all && git reset && git checkout -- . && git checkout ${BRANCH} && git reset --hard origin/${BRANCH}' && SKIP_SLEEP=true sudo puppetize"
-    ssh ${host}.sermo.${FLEET} "${cmd}"
-    echo
-  done
-}
-
-function puppetize_the_world() {
-   FLEET=prod BRANCH=production puppetize_fleet
-}
 
 function sync_time() {
   sudo service ntp stop
@@ -86,6 +30,6 @@ function sync_time() {
 bindkey "^[f" forward-word
 bindkey "^[b" backward-word
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

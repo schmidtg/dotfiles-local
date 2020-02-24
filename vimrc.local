@@ -31,68 +31,6 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 "nnoremap <C-S-K> :Ag<SPACE>
 
 
-"""""""""""""""""""
-" Ctrlp
-"""""""""""""""""""
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20,results:20'
-
-" Do not use the nearest .git directory as the cwd
-let g:ctrlp_working_path_mode = 0
-
-" Interpret space as either <space> or _ when matching files
-let g:ctrlp_abbrev = {
-    \ 'gmode': 't',
-    \ 'abbrevs': [
-        \ {
-        \ 'pattern': '\(^@.\+\|\\\@<!:.\+\)\@<! ',
-        \ 'expanded': '_',
-        \ 'mode': 'pfrz',
-        \ },
-        \ ]
-    \ }
-
-if executable('ag')
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l -f --nocolor --hidden -g ""'
-endif
-
-" Use a leader instead of the actual named binding
-" nmap <leader>p :CtrlP<cr>
-
-" Easy bindings for its various modes
-" nmap <leader>bb :CtrlPBuffer<cr>
-" nmap <leader>bm :CtrlPMixed<cr>
-" nmap <leader>bs :CtrlPMRU<cr>
-
-" Use alternate matcher
-" http://blog.mikecordell.com/2015/01/27/better-fuzzy-search-with-ctrl-p-in-vim.html
-if executable('matcher')
-    let g:ctrlp_match_func = { 'match': 'GoodMatch' }
-
-    function! GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
-
-      " Create a cache file if not yet exists
-      let cachefile = ctrlp#utils#cachedir().'/matcher.cache'
-      if !( filereadable(cachefile) && a:items == readfile(cachefile) )
-        call writefile(a:items, cachefile)
-      endif
-      if !filereadable(cachefile)
-        return []
-      endif
-
-      " a:mmode is currently ignored. In the future, we should probably do
-      " something about that. the matcher behaves like "full-line".
-      let cmd = 'matcher --limit '.a:limit.' --manifest '.cachefile.' '
-      if !( exists('g:ctrlp_dotfiles') && g:ctrlp_dotfiles )
-        let cmd = cmd.'--no-dotfiles '
-      endif
-      let cmd = cmd.a:str
-
-      return split(system(cmd), "\n")
-
-    endfunction
-end
-
 """""""""
 " Fzf
 """"""""""
@@ -199,15 +137,15 @@ let g:user_emmet_leader_key='<c-j>'
 """""""""""""""""""
 " Load plugins on insert mode
 """""""""""""""""""
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
-                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
-augroup END
+" augroup load_us_ycm
+"   autocmd!
+"   autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+"                      \| call youcompleteme#Enable() | autocmd! load_us_ycm
+" augroup END
 
-let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsExpandTrigger="<c-e>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 """""""""""""""""""
 " Easy switch to project directories
